@@ -1,0 +1,189 @@
+* {
+  box-sizing: inherit;
+}
+
+html, body, #app {
+  height: 100%;
+}
+
+body {
+  background-color: #a7c5bd;
+  box-sizing: border-box;
+  color: #fff;
+  font-family: Lato, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font-weight: 300;
+  line-height: 1.5;
+  margin: 0;
+}
+
+button,
+input {
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.app {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+}
+
+h1,
+h2 {
+  font-weight: 300;
+  letter-spacing: -.1rem;
+  margin: 0;
+  text-align: center;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0.5rem;
+}
+
+.gallery__header {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.gallery__title {
+  flex-basis: 100%;
+}
+
+.gallery__stats {
+  background-color: rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-basis: 100%;
+  font-size: 0.875rem;
+  justify-content: space-around;
+  padding: .25rem 0;
+}
+
+.gallery__item {
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  flex: 1 0 15rem;
+  margin: .5rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.gallery__item:hover .gallery__image {
+  filter: brightness(50%);
+  transform: scale(1.25);
+}
+
+.gallery__item:hover .gallery__overlay {
+  opacity: 1;
+}
+
+.gallery__image {
+  height: 100%;
+  transition: transform .3s ease-in-out, filter .3s ease-in-out;
+  width: 100%;
+}
+
+.gallery__overlay {
+  align-items: center;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  opacity: 0;
+  position: absolute;
+  transition: opacity .3s ease-in-out;
+  width: 100%;
+  z-index: 9;
+}
+
+.lightbox {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+.lightbox__wrapper {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+}
+
+.lightbox__image {
+  box-shadow: 0 1rem 2.5rem -0.5rem rgba(0, 0, 0, 0.5);
+  height: auto;
+  max-height: 90vmin;
+  max-width: 90vmin;
+  min-width: 75vw;
+}
+
+.lightbox__btn {
+  background: none;
+  border: 0;
+  color: rgba(0, 0, 0, 0.75);
+  cursor: pointer;
+  font-size: 5vw;
+  font-weight: 700;
+  height: 5vw;
+  right: 2.5vw;
+  position: absolute;
+  top: -2.5vw;
+  width: 5vw;
+}
+
+.message--error {
+  background: #d32f2f;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 1rem auto;
+  max-width: 420px;
+  padding: 1rem;
+  text-align: center;
+  width: 100%;
+}
+
+.loader {
+  height: 200px;
+  margin-top: 6rem;
+  overflow: hidden;
+  width: 200px;
+}
+
+.loader svg {
+  animation: rotate 2s infinite cubic-bezier(0.17, 0.67, 1, 0.3);
+  z-index: 2;
+}
+
+@keyframes rotate {
+  0 {
+    transform: rotateZ(0);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+
+.fade-in {
+  animation: fade-in .3s ease-in-out forwards;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
