@@ -52,38 +52,39 @@ const Image = ({ className, src, alt }) => (
   />
 );
 
+Image.defaultProps = {
+  alt: '',
+};
+
 Image.propTypes = {
   className: React.PropTypes.string.isRequired,
   src: React.PropTypes.string.isRequired,
   alt: React.PropTypes.string,
 };
 
-const ImageWrapper = ({ id, openImage, src, tabindex, title }) => {
-  const handleClick = () => { openImage(id); }
-
-  return (
-    <div
-      className="gallery__item"
-      role="button"
-      onClick={handleClick}
-      tabIndex={tabindex}
-    >
-      <div className="gallery__overlay">
-        <h2>{title}</h2>
-      </div>
-      <Image
-        className="gallery__image"
-        src={src}
-        alt={src}
-      />
+const ImageWrapper = ({ id, openImage, src, tabindex, title }) => (
+  <div
+    className="gallery__item"
+    role="button"
+    onClick={() => { openImage(id); }}
+    tabIndex={tabindex}
+  >
+    <div className="gallery__overlay">
+      <h2>{title}</h2>
     </div>
-  );
-};
+    <Image
+      className="gallery__image"
+      src={src}
+      alt={src}
+    />
+  </div>
+);
 
 ImageWrapper.propTypes = {
   id: React.PropTypes.string.isRequired,
   title: React.PropTypes.string.isRequired,
   src: React.PropTypes.string.isRequired,
+  tabindex: React.PropTypes.number.isRequired,
   openImage: React.PropTypes.func.isRequired,
 };
 
@@ -101,7 +102,9 @@ const LightBox = ({ image, closeImage }) => (
 );
 
 LightBox.propTypes = {
-  image: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
+  image: React.PropTypes.objectOf(
+    React.PropTypes.string.isRequired,
+  ).isRequired,
   closeImage: React.PropTypes.func.isRequired,
 };
 
@@ -124,7 +127,9 @@ const Gallery = ({ images, openImage }) => {
 };
 
 Gallery.propTypes = {
-  images: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+  images: React.PropTypes.arrayOf(
+    React.PropTypes.object
+  ).isRequired,
   openImage: React.PropTypes.func.isRequired,
 };
 
@@ -135,6 +140,9 @@ class App extends React.Component {
       activeId: null,
       error: null,
       images: [],
+      user: null,
+      followers: 0,
+      galleryTitle: '',
       isLoading: true,
     };
     this.handleKeyUp = this.handleKeyUp.bind(this);
@@ -144,13 +152,16 @@ class App extends React.Component {
   componentDidMount() {
     document.addEventListener('keyup', this.handleKeyUp);
     setTimeout(() => {
-      fetch('http://databro.com/15491/images.json')
+      fetch('//databro.com/16062/images.json')
       .then(handleFetchErrors)
       .then(res => res.json())
-      .then((images) => {
+      .then(({ user, gallery, images }) => {
         this.setState({
           isLoading: false,
           images,
+          user: user.name,
+          followers: user.followers,
+          galleryTitle: gallery.title,
         });
       })
       .catch((err) => {
@@ -207,14 +218,14 @@ class App extends React.Component {
     }
     return (
       <div className="app">
-        <h1 className="app__title">React Gallery</h1>
-        <header className="gallery__header">
-          <h2 className="gallery__title">Nature</h2>
+        <h1 className="app__title">React Image Gallery</h1>
+        {!this.state.isLoading && <header className="gallery__header">
+          <h2 className="gallery__title">{this.state.galleryTitle}</h2>
           <div className="gallery__stats">
-            <span>by @jetJake</span>
-            <span>{this.state.images.length} photos</span> <span>128 followers</span>
+            <span>by @{this.state.user}</span>
+            <span>{this.state.images.length} photos</span> <span>{this.state.followers} followers</span>
           </div>
-        </header>
+        </header>}
         {content}
       </div>
     );
